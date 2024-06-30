@@ -32,7 +32,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
-	CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserResponse, error)
+	CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*Empty, error)
 	RegisterUser(ctx context.Context, in *RegisterReq, opts ...grpc.CallOption) (*User, error)
 	Login(ctx context.Context, in *LoginReq, opts ...grpc.CallOption) (*LoginResponse, error)
 	GetUser(ctx context.Context, in *GetUserReq, opts ...grpc.CallOption) (*User, error)
@@ -49,9 +49,9 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 	return &userServiceClient{cc}
 }
 
-func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*CreateUserResponse, error) {
+func (c *userServiceClient) CreateUser(ctx context.Context, in *CreateUserReq, opts ...grpc.CallOption) (*Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(CreateUserResponse)
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, UserService_CreateUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -123,7 +123,7 @@ func (c *userServiceClient) DeleteUser(ctx context.Context, in *DeleteUserReq, o
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
 type UserServiceServer interface {
-	CreateUser(context.Context, *CreateUserReq) (*CreateUserResponse, error)
+	CreateUser(context.Context, *CreateUserReq) (*Empty, error)
 	RegisterUser(context.Context, *RegisterReq) (*User, error)
 	Login(context.Context, *LoginReq) (*LoginResponse, error)
 	GetUser(context.Context, *GetUserReq) (*User, error)
@@ -137,7 +137,7 @@ type UserServiceServer interface {
 type UnimplementedUserServiceServer struct {
 }
 
-func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserReq) (*CreateUserResponse, error) {
+func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserReq) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
 func (UnimplementedUserServiceServer) RegisterUser(context.Context, *RegisterReq) (*User, error) {

@@ -3,7 +3,7 @@ syntax = "proto3";
 option go_package = "tuzov.user.v1;user1";
 
 service UserService {
-  rpc CreateUser(CreateUserReq) returns (CreateUserResponse);
+  rpc CreateUser(CreateUserReq) returns (empty);
   rpc RegisterUser(RegisterReq) returns (User);
   rpc Login(LoginReq) returns (LoginResponse);
   rpc GetUser(GetUserReq) returns (User);
@@ -46,8 +46,7 @@ message  CreateUserReq {
   string password = 4;
 }
 
-message  CreateUserResponse {
-  string user_id = 1;
+message  empty {
 }
 message RegisterReq {
   string email = 1;
