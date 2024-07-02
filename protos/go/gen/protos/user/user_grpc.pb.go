@@ -19,14 +19,15 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	UserService_CreateUser_FullMethodName   = "/UserService/CreateUser"
-	UserService_RegisterUser_FullMethodName = "/UserService/RegisterUser"
-	UserService_Login_FullMethodName        = "/UserService/Login"
-	UserService_GetUser_FullMethodName      = "/UserService/GetUser"
-	UserService_GetAllUser_FullMethodName   = "/UserService/GetAllUser"
-	UserService_UpdateUser_FullMethodName   = "/UserService/UpdateUser"
-	UserService_DeleteUser_FullMethodName   = "/UserService/DeleteUser"
-	UserService_AddProduct_FullMethodName   = "/UserService/AddProduct"
+	UserService_CreateUser_FullMethodName    = "/UserService/CreateUser"
+	UserService_RegisterUser_FullMethodName  = "/UserService/RegisterUser"
+	UserService_Login_FullMethodName         = "/UserService/Login"
+	UserService_GetUser_FullMethodName       = "/UserService/GetUser"
+	UserService_GetAllUser_FullMethodName    = "/UserService/GetAllUser"
+	UserService_UpdateUser_FullMethodName    = "/UserService/UpdateUser"
+	UserService_DeleteUser_FullMethodName    = "/UserService/DeleteUser"
+	UserService_AddProduct_FullMethodName    = "/UserService/AddProduct"
+	UserService_ReturnProduct_FullMethodName = "/UserService/ReturnProduct"
 )
 
 // UserServiceClient is the client API for UserService service.
@@ -41,6 +42,7 @@ type UserServiceClient interface {
 	UpdateUser(ctx context.Context, in *UpdatedUserReq, opts ...grpc.CallOption) (*User, error)
 	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 	AddProduct(ctx context.Context, in *AddProductReq, opts ...grpc.CallOption) (*Empty, error)
+	ReturnProduct(ctx context.Context, in *ReturnProductReq, opts ...grpc.CallOption) (UserService_ReturnProductClient, error)
 }
 
 type userServiceClient struct {
@@ -131,6 +133,39 @@ func (c *userServiceClient) AddProduct(ctx context.Context, in *AddProductReq, o
 	return out, nil
 }
 
+func (c *userServiceClient) ReturnProduct(ctx context.Context, in *ReturnProductReq, opts ...grpc.CallOption) (UserService_ReturnProductClient, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	stream, err := c.cc.NewStream(ctx, &UserService_ServiceDesc.Streams[0], UserService_ReturnProduct_FullMethodName, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &userServiceReturnProductClient{ClientStream: stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type UserService_ReturnProductClient interface {
+	Recv() (*ReturnProductRes, error)
+	grpc.ClientStream
+}
+
+type userServiceReturnProductClient struct {
+	grpc.ClientStream
+}
+
+func (x *userServiceReturnProductClient) Recv() (*ReturnProductRes, error) {
+	m := new(ReturnProductRes)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -143,6 +178,7 @@ type UserServiceServer interface {
 	UpdateUser(context.Context, *UpdatedUserReq) (*User, error)
 	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResponse, error)
 	AddProduct(context.Context, *AddProductReq) (*Empty, error)
+	ReturnProduct(*ReturnProductReq, UserService_ReturnProductServer) error
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -173,6 +209,9 @@ func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserReq
 }
 func (UnimplementedUserServiceServer) AddProduct(context.Context, *AddProductReq) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddProduct not implemented")
+}
+func (UnimplementedUserServiceServer) ReturnProduct(*ReturnProductReq, UserService_ReturnProductServer) error {
+	return status.Errorf(codes.Unimplemented, "method ReturnProduct not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -331,6 +370,27 @@ func _UserService_AddProduct_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_ReturnProduct_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(ReturnProductReq)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(UserServiceServer).ReturnProduct(m, &userServiceReturnProductServer{ServerStream: stream})
+}
+
+type UserService_ReturnProductServer interface {
+	Send(*ReturnProductRes) error
+	grpc.ServerStream
+}
+
+type userServiceReturnProductServer struct {
+	grpc.ServerStream
+}
+
+func (x *userServiceReturnProductServer) Send(m *ReturnProductRes) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -371,6 +431,12 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_AddProduct_Handler,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "ReturnProduct",
+			Handler:       _UserService_ReturnProduct_Handler,
+			ServerStreams: true,
+		},
+	},
 	Metadata: "protos/user/user.proto",
 }

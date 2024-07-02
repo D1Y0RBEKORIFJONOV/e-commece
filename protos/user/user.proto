@@ -12,8 +12,16 @@ service UserService {
   rpc UpdateUser(UpdatedUserReq) returns (User);
   rpc DeleteUser(DeleteUserReq) returns (DeleteUserResponse);
   rpc AddProduct(AddProductReq) returns (empty);
+  rpc ReturnProduct(ReturnProductReq) returns (stream ReturnProductRes);
+}
+message ReturnProductReq {
+  string  user_id =1;
 }
 
+
+message ReturnProductRes {
+  repeated  string product_id = 1;
+}
 
 message AddProductReq {
   string user_id = 1;
