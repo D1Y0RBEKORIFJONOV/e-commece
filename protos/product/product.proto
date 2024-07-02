@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+
+option go_package = "diyorbek.product.v1;product1";
+
+
+service  ProductService {
+  rpc CreateProduct(CreateProductRequest) returns (Product);
+  rpc GetProduct(GetProductReq) returns (Product);
+  rpc GetAllProduct(GetAllProductReq) returns (GetAllProductRes);
+  rpc ListProduct(GetAllProductReq) returns (stream Product);
+  rpc DeleteProduct(DeleteProductReq) returns (Empty);
+  rpc AddProductToUserBasket(AddProductToUserBasketReq) returns (Empty);
+}
+
+
+message  AddProductToUserBasketReq {
+  string product_id = 1;
+  string  user_id = 2;
+}
+
+message  Empty {
+  string Status = 1;
+}
+
+message DeleteProductReq {
+  string  product_id = 1;
+}
+
+message CreateProductRequest {
+  string product_name = 1;
+  string  product_description = 2;
+  string  price = 3;
+  string category = 4;
+}
+
+message  Product {
+  string  product_id = 6;
+  string product_name = 1;
+  string product_description = 2;
+  string price = 3;
+  string category = 4;
+  string create_at = 5;
+}
+
+message GetProductReq {
+  string product_id = 1;
+}
+
+message  GetAllProductReq {
+  string field = 1;
+  string value = 2;
+  int64 page = 3;
+  int64 limit =4;
+}
+message  GetAllProductRes {
+  repeated Product products = 1;
+}

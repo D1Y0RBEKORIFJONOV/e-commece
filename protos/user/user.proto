@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "tuzov.user.v1;user1";
+option go_package = "diyorbek.user.v1;user1";
 
 service UserService {
   rpc CreateUser(CreateUserReq) returns (empty);
@@ -10,6 +10,7 @@ service UserService {
   rpc GetAllUser(GetAllUserReq) returns (GetAllUserResponse);
   rpc UpdateUser(UpdatedUserReq) returns (User);
   rpc DeleteUser(DeleteUserReq) returns (DeleteUserResponse);
+
 }
 
 
@@ -46,8 +47,7 @@ message  CreateUserReq {
   string password = 4;
 }
 
-message  empty {
-}
+message  empty {}
 message RegisterReq {
   string email = 1;
   string secret_code = 2;
@@ -59,7 +59,7 @@ message  LoginReq {
 }
 
 message  LoginResponse {
-  string  token  = 1;
+  string token = 1;
 }
 
 
