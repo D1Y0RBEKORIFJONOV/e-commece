@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "diyorbe.user.v1;user1";
+option go_package = "diyorbe.order1.v1;order1";
 
 service OrderService{
   rpc CreateOrder(CreatOrderReq) returns (stream CreateOrderRes );
