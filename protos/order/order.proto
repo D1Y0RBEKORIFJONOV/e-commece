@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "diyorbek.product.v1;order1";
+option go_package = "diyorbek.order.v1;order1";
 
 service OrderService{
   rpc CreateOrder(CreatOrderReq) returns (stream CreateOrderRes );
