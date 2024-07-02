@@ -1,4 +1,5 @@
-module protos
+module github.com/D1Y0RBEKORIFJONOV/e-commece
+
 
 go 1.22.4
 
