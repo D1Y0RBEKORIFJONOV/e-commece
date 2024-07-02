@@ -6,13 +6,13 @@ service OrderService{
   rpc CreateOrder(CreatOrderReq) returns (stream CreateOrderRes );
   rpc GetInfoOrder(GetInfoOrderReq) returns (Order);
   rpc GetAllInfoOrder(GetAllInfoOrderReq) returns (GetAllInfoOrderRes);
-  rpc DeleteOrder(DeleteOrderReq) returns (Empty);
+  rpc DeleteOrder(DeleteOrderReq) returns (Empty1);
 }
 
 message DeleteOrderReq {
   string  user_id = 1;
 }
-message Empty {
+message Empty1 {
   string  status = 1;
 }
 message GetInfoOrderReq {
@@ -22,7 +22,7 @@ message CreatOrderReq {
   string user_id =  1;
 }
 
-message Product {
+message Product1 {
   string  product_id = 6;
   string product_name = 1;
   string product_description = 2;
@@ -34,7 +34,7 @@ message  CreateOrderRes {
   string order_id =1;
   string user_id  = 2;
   string user_name = 3;
-  Product product = 4;
+  Product1 product = 4;
   string created_at = 5;
 }
 
