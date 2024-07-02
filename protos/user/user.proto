@@ -2,6 +2,7 @@ syntax = "proto3";
 
 option go_package = "diyorbek.user.v1;user1";
 
+
 service UserService {
   rpc CreateUser(CreateUserReq) returns (empty);
   rpc RegisterUser(RegisterReq) returns (User);
@@ -12,6 +13,7 @@ service UserService {
   rpc DeleteUser(DeleteUserReq) returns (DeleteUserResponse);
   rpc AddProduct(AddProductReq) returns (empty);
 }
+
 
 message AddProductReq {
   string user_id = 1;
