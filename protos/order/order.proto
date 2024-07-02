@@ -1,12 +1,12 @@
 syntax = "proto3";
 
-option go_package = "diyorbe.order1.v1;order1";
+option go_package = "diyorbek.order.v1;order";
 
-service OrderService{
-  rpc CreateOrder(CreatOrderReq) returns (stream CreateOrderRes );
-  rpc GetInfoOrder(GetInfoOrderReq) returns (Order);
+service OrderService {
+    rpc CreateOrder(CreatOrderReq) returns (stream CreateOrderRes );
+    rpc GetInfoOrder(GetInfoOrderReq) returns (Order);
     rpc GetAllInfoOrder(GetAllInfoOrderReq) returns (GetAllInfoOrderRes);
-  rpc DeleteOrder(DeleteOrderReq) returns (Empty1);
+    rpc DeleteOrder(DeleteOrderReq) returns (Empty1);
 }
 
 message DeleteOrderReq {
