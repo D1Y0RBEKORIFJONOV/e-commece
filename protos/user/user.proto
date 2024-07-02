@@ -10,7 +10,12 @@ service UserService {
   rpc GetAllUser(GetAllUserReq) returns (GetAllUserResponse);
   rpc UpdateUser(UpdatedUserReq) returns (User);
   rpc DeleteUser(DeleteUserReq) returns (DeleteUserResponse);
+  rpc AddProduct(AddProductReq) returns (empty);
+}
 
+message AddProductReq {
+  string user_id = 1;
+  string product_id = 2;
 }
 
 
@@ -47,7 +52,9 @@ message  CreateUserReq {
   string password = 4;
 }
 
-message  empty {}
+message  empty {
+  string status = 1;
+}
 message RegisterReq {
   string email = 1;
   string secret_code = 2;
