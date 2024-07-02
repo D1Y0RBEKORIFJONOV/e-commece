@@ -41,6 +41,7 @@ message  CreateOrderRes {
 message Order {
   string  order_id = 1;
   string  user_id = 2;
+  string product_id = 6;
   string  user_name = 3;
   string  product_name = 4;
   string  created_at = 5;
