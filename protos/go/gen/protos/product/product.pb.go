@@ -68,7 +68,6 @@ func (x *AddProductToUserBasketReq) GetProductId() string {
 	return ""
 }
 
-
 func (x *AddProductToUserBasketReq) GetUserId() string {
 	if x != nil {
 		return x.UserId

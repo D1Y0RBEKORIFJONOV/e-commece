@@ -20,7 +20,7 @@ message ReturnProductReq {
 
 
 message ReturnProductRes {
-  repeated  string product_id = 1;
+   string product_id = 1;
 }
 
 message AddProductReq {

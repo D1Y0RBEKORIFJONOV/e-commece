@@ -4,8 +4,6 @@
 // - protoc             v3.21.5
 // source: protos/product/product.proto
 
-
-
 package product1
 
 import (
